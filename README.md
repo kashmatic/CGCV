@@ -50,12 +50,17 @@ CGCV requires a MySQL database to store data and generate results. By default, C
 and the database name cgcv_database. To setup CGCV with these default settings, issue the following commands from the unix command prompt.
 
 To create the username bov, without password
+
 > mysql -u root -p password -e 'create user cgcv@localhost'
+
 With password
+
 > mysql -u root -p password -e 'create user cgcv@localhost identified by password'
 
 To create the database and give permissions to your user
+
 > mysql -u root -p password -e 'create database cgcv_database'
+
 > mysql -u root -p password -e 'grant select,insert,create,drop on cgcv_database.* to cgcv@localhost'
 
 If you want to use different database settings, reference the MySQL documentation for instructions on how to configure the database.
@@ -146,8 +151,6 @@ List of subfolders:
     .. tables  
 
 Free space required (minimum):
-  
-Free space required 
     create-Prokaryotes.sh (~ 8-9 GB)
     create-Eukaryotes.sh (~ 6-7 GB)
 
