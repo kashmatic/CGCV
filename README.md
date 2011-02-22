@@ -137,13 +137,13 @@ the installation script will create the following folder and the script that dow
 > /home/username/CGCV/Data/[Bacteria | Eukaryotes]/subfolder
   
 List of subfolders:
->  ..                        genomes        genomes
->  ..                        aaseqs         aaseqs
->  ..                        geneseqs
->  ..                        gff_files      gtf_files
->  ..                        listings       listings
->  ..                        tmpListings    tmpListings
->  ..                        tables         tables
+>  ..                        genomes        genomes  
+>  ..                        aaseqs         aaseqs  
+>  ..                        geneseqs  
+>  ..                        gff_files      gtf_files  
+>  ..                        listings       listings  
+>  ..                        tmpListings    tmpListings  
+>  ..                        tables         tables  
 
 Free space required (minimum):
   
