@@ -148,7 +148,7 @@ List of subfolders:
 Free space required (minimum):
   
 Free space required 
-* create-Prokaryotes.sh (~ 8-9 GB)
-* create-Eukaryotes.sh (~ 6-7 GB)
+    create-Prokaryotes.sh (~ 8-9 GB)
+    create-Eukaryotes.sh (~ 6-7 GB)
 
 Please make sure that you run the create-Prokaryotes.sh and the create-Eukaryotes.sh scripts only once (otherwise, the downloaded data will get corrupted)
