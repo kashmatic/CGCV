@@ -1,0 +1,293 @@
+/*
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+
+
+#################################################################################
+##
+## Author  => Kashi V Revanna
+## Company => The Center for Genomics and Bioinformatics
+## Contact => biohelp@cgb.indiana.edu
+## Written => 14th Nov 2008
+##
+##################################################################################
+*/
+
+/*
+ * --------------------------------------------------------------
+ * LIST of all the ids used for the web pages
+ * --------------------------------------------------------------
+ */
+
+
+/*
+ * div - header
+ */
+#header {
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:75px;
+        z-index:2;
+        /*background-color: #104B84;*/
+        background-color: #800000;
+}
+
+/*
+ * div - navbar
+ */
+#navbar {
+        position: absolute;
+        left: 0px;
+        top: 75px;
+        float: left;
+        width: 100%;
+        min-width: 850px;
+        /*background-color: #B0C4DE;*/
+        background-color: #FFEBCD;
+        border-top: 2px solid #FFFF00;
+        white-space: nowrap;
+}
+
+/*
+ * div - body
+ */
+#body {
+        position:absolute;
+        left:0px;
+        top:100px;
+        width:1000px;
+        /*z-index:-1;*/
+        height: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 10px;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+/*
+ * ul - nav
+ */
+#nav {
+    margin: 0;
+    padding: 0 0 24px 8px;
+}
+
+/*
+ * li - nav
+ */
+#nav li {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+
+/* 
+ * a - nav (link, visited)
+ */
+#nav a:link, #nav a:visited {
+    float: left;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: bold;
+    padding: 3px 16px 3px 16px;
+    text-decoration: none;
+    color: #056140;
+}
+
+/*
+ * a - nav (hover)
+ */
+#nav a:hover {
+    color: #FFFFFF;
+    background-color: #617C58;
+    border-bottom: 0px solid #617C58;
+}
+
+/*
+ * div - disp(to hide/display)
+ */
+#disp {
+	position:relative;
+	z-index:1;
+	background-color: #FFFFFF;
+	display:none;
+	overflow:auto;
+}
+
+/*
+ * div - waiting (in the doBlast page)
+ */
+#waiting {
+	position:relative;
+	z-index:1;
+	background-color: #FFFFFF;
+	overflow:auto;
+}
+
+
+/*
+ * ------------------------------------------------------------------
+ * List of the basic HTML tags 
+ * ------------------------------------------------------------------
+ */
+
+/*
+ * a - link, hover, visited
+ */
+a:link {
+	color: #990000;
+	text-decoration: none;
+}
+a:hover {
+	color: #990000;
+	text-decoration: none;
+}
+a:visited {
+	color: #CD853F;
+	text-decoration: none;
+}
+
+
+/*
+ * input buttons, submit, reset
+ */
+input[type=button],input[type=submit],input[type=reset] {
+	font-size: 12px;
+	background-color: #DCDCDC;
+	font-weight: bold;
+	color: black;
+}
+
+
+/*
+ * input text space
+ */
+input[type=text] {
+	background-color:#FFFAF0;
+}
+
+
+/*
+ * select
+ */
+select {
+	width:100px;
+	background-color:#FFFAF0;
+}
+
+/*
+ * textarea
+ */
+textarea {
+	background-color:#FFFAF0;
+}
+
+/*
+ * ------------------------------------------------------------------
+ * List of classes
+ * ------------------------------------------------------------------
+ */
+
+
+/*
+ * class - bodypara
+ */
+.bodypara {
+	font-size: 12px;
+}
+
+/*
+ * class - selectBoxText
+ */
+.selectBoxText {
+	font-size:10px;
+	font-family: Calibri, sans-serif;
+}
+
+/*
+ * class - smalltext
+ */
+.smallText {
+	font-size: 9px;
+}
+
+/* 
+ * class - highlight
+ */
+.highlight {
+	font-weight: bold;
+	background-color: #FFEBCD;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	border: thin solid #000000;
+	padding: 5px;
+}
+
+/*
+ * class - tab
+ */
+table.tab {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}       
+table.tab th {
+	font-size: 12px;
+	padding-left: 10px;
+}
+table.tab td {
+	font-size: 12px;
+	padding: 10px;
+} 
+
+/*
+ * class - sortable
+ */
+table.sortable thead {
+	background-color:#eee;
+	color:#666666;
+	font-weight: bold;
+	cursor: default;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+}
+table.sortable td {
+        font-size: 12px;
+        padding-left: 10px;
+}
+table.sortable th {
+	font-size: 12px;
+	padding-left: 10px;
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+/*
+ * ------------------------------------------------------------------
+ * unclassified
+ * ------------------------------------------------------------------
+ */
+
+.handcursor{
+    cursor:pointer;
+}

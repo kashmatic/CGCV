@@ -1,0 +1,64 @@
+<!--
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+
+
+#################################################################################
+##
+## Author  => Kashi V Revanna
+## Company => The Center for Genomics and Bioinformatics
+## Contact => biohelp@cgb.indiana.edu
+## Written => 14th Nov 2008
+##
+##################################################################################
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+	<!-- Title variable -->
+	<TITLE>
+	CGCV ::	<TMPL_VAR NAME=TITLE>
+	</TITLE>
+	
+	<!-- links to css and js files -->
+	<TMPL_INCLUDE NAME="css.tmpl">
+	<TMPL_INCLUDE NAME="script.tmpl">
+	
+	<!-- Additional scripts -->
+	<script type="text/javascript" src="/cgcv/js/displayImage.js"></script>
+	<script type="text/javascript">
+		<TMPL_VAR NAME=SCRIPT>
+	</script>
+</HEAD>
+
+
+<body onload="setValue()">
+	<!-- header -->
+	<TMPL_INCLUDE NAME="header.tmpl">
+
+	
+	<!-- Body display div -->
+	<div id="body">
+	
+		<!-- print the contents -->
+		<TMPL_VAR NAME=CONTENT>
+
+	
+		<!-- Footer display -->
+		<TMPL_INCLUDE NAME="footer.tmpl">
+	
+	</div>

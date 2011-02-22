@@ -1,0 +1,46 @@
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+
+Version 1.0.5 (02-01-2008)
+- Inclusion of Plasmids along with the Genomes.
+- Update Information provided in the Demo page.
+- Regular Update from NCBI
+
+Version 1.0.4 (01-07-2008)
+- Improved image display and browser compatability.
+- Improved database setup and update procedure.
+
+Version 1.0.3 (12-24-2008)
+New Features
+- Radio button to select all the available sequnces.
+- Phylogenetic profiling table is now sorted on Clustering score.
+- Each field in profiling table is now sortable.
+- Improved display of the table.
+- Genome images now have pop-ups to either zoom into a given region or get the alignment.
+
+Bugs Fixed
+- Image display errors.
+- Accessing substrains from Database.
+
+Version 1.0.2 (12-04-2008)
+Bugs Fixed
+- Image display of Eukaryotic GTF information.
+- Improved server response to refresh images.
+- Modified MySQL database structure to include transcript id.
+- Modified script to update MySQL database.
+
+Version 1.0.1 (11-17-2008)
+- Initial version.

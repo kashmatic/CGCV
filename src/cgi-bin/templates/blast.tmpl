@@ -1,0 +1,383 @@
+<!--
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+
+
+#################################################################################
+##
+## Author  => Kashi V Revanna
+## Company => The Center for Genomics and Bioinformatics
+## Contact => biohelp@cgb.indiana.edu
+## Written => 14th Nov 2008
+##
+##################################################################################
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+	<!-- Title variable -->
+	<TITLE>
+	CGCV ::	<TMPL_VAR NAME=TITLE>
+	</TITLE>
+	
+	<!-- links to css and js files -->
+	<TMPL_INCLUDE NAME="css.tmpl">
+	<TMPL_INCLUDE NAME="script.tmpl">
+	
+	<!-- Additional scripts -->
+	<script type="text/javascript">
+		<TMPL_VAR NAME=SCRIPT>
+	</script>
+</HEAD>
+
+
+<body onLoad="DeSelect()">
+	<!-- header -->
+	<TMPL_INCLUDE NAME="header.tmpl">
+
+	
+	<!-- Body display div -->
+	<div id="body">
+	<TMPL_VAR NAME=DESCRIPTION>
+		<!-- Error display div -->
+		<div>
+			<TMPL_VAR NAME=ERROR>
+		</div>
+	
+	<!-- form begin -->
+	<form   method="POST" action="<TMPL_VAR NAME=ACTION>" enctype="multipart/form-data" name="Form"	id="Form" onSubmit="return validateForm()" >
+
+	<hr>
+
+	<!-- fieldset for email -->
+	<p class="bodypara">
+	Optional: Please provide a valid email address. An email with the URL to the Result page will be sent to you as soon as your submitted job is completed.
+	</p>
+	
+	<span class="bodypara">Email Address (optional):</span>
+	<input id="email" name="email" class="email" type="text" size= "40">
+	<br>
+
+	<hr>
+
+	<!-- fieldset for selecting genomes -->
+	<p class="bodypara">
+	Please choose the genomes from the 'Available genomes' list for the <a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi">BLAST</a>	search. Use the controls in the center to Add/Remove the genomes.
+	</p>
+
+	<table class="tab" border="0px">
+		<tr>
+			<td width="150px">
+				<b> Available Genomes: </b>
+			</td>
+			<td>
+				<div id="availableGenomes"></div>
+			</td>
+			<td align="left">
+				<input type="checkbox" id="getAll" name="getAll" value="1" onClick="MoveAll(this.form.available,  this.form.selected)"> <span class="bodypara">Select all available genomes.</span>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="3" style="padding:0px">
+				<select name="available" size="<TMPL_VAR NAME=SIZE>" multiple class="bodypara" id="available"  style="width:850px;">
+				<TMPL_VAR NAME=CONTENT>
+				</select>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="center" >
+				<input type="button" value="&darr; Add &darr;" onclick="MoveOption(this.form.available,  this.form.selected)">
+			</td>
+			<td align="left">
+				<input type="button" value="&uarr; Remove &uarr;" onclick="MoveOption(this.form.selected,  this.form.available)">
+			</td>
+			<td>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<b>Selected Genome(s):</b>
+			</td>
+			<td>
+				<div id="selectedGenomes"></div>
+			</td>
+			<td align="right">
+				<span class="bodypara" align="right"><a href="javascript:onclick=unselect();">Unselect All</a></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="3" style="padding:0px">
+				<select name="s" size="<TMPL_VAR NAME=SIZE>" multiple class="bodypara" id="selected" style="width:850px;">
+				</select>
+			</td>
+		</tr>
+        
+	</table>
+
+	<br>
+
+	<hr>
+
+	<!-- fieldset for the parameters and sequnce submission -->
+        <p class="bodypara">
+		Choose the BLAST program, cutoff e-value and reference DB for the BLAST search and provide your (multiple) query sequences as input.
+		The BLAST search can be configured by modifying the default BLAST parameters (click on the checkbox below).
+        </p>
+        <table width="100%" border="0px" class="tab">
+        <tr>
+                <td>Program</td>
+                <td>E-value</td>
+                <td>Database Type</td>
+                <td rowspan="5" width="450px"><div style="background-color:blue"></div></td>
+        </tr>
+
+        <tr>
+                <td>
+				<select name="program" id="program">
+					<TMPL_VAR NAME=PROGRAM>
+                </select>
+                </td>
+        
+                <td>
+                <input type="text" size="10" id="evalue" name="evalue" value="1e-04" style="width:100px">
+                </td>
+
+                <td>
+				<select name="dbtype" id="database">
+					<TMPL_VAR NAME=DBTYPE>
+				</select>
+                </td>
+        </tr>
+        <tr><td colspan="5">
+
+        <p class="bodypara">
+        Enter sequence below in fasta format<br>
+        <textarea name="sequence" cols=65 rows=6 class="bodypara" style="width:500px;" id="sequence"></textarea>
+        
+        <br>
+        <br>
+        or
+        </p>
+
+        <p class="bodypara">Upload the sequence file (<a <TMPL_VAR NAME=EXAMPLE>>example file</a>):<br>
+        <input type="file" name="seqfile" size="50px" id="uploadFile"><br>
+        </p>
+        
+        <input type="reset" value="RESET">
+        <input type="submit" value="BLAST">
+
+	<!-- to display error message -->
+        <span id="errorMsg" class="bodypara" style="color:red"></span>
+        
+        </td>
+        </tr>
+        </table>
+
+	<hr>
+
+        <!-- Extra parameters -->
+        <p>
+                <input type="checkbox" id="checkbox_1" onClick="showDiv('disp',this)">
+                <span class="bodypara">Advanced BLAST Parameters (click here for further options)</span>
+                <br>
+        </p>
+
+        <div id="disp" style="height:290px">
+        <p class="bodypara">Advanced Parameters.</p>
+
+        <table border="0px" width="100%">
+        <tr>
+                <td align="right">
+                <select name="filter" class="bodypara">
+                <option selected>T</option>
+                <option>F</option>
+                </select>
+                </td>
+
+                <td >
+                        <span class="bodypara">Filter Query Sequence.</span>
+                </td>
+
+                <td  align="right">
+                        <select name="matrix" class="bodypara">
+                        <option selected>BLOSUM62</option>
+                        <option>BLOSUM45</option>
+                        <option>BLOSUM80</option>
+                        <option>PAM30</option>
+                        <option>PAM70</option>
+                        </select>
+                </td>
+                <td >
+                        <span class="bodypara"> Matrix.</span>
+                </td>
+        </tr>
+        
+        <tr>
+
+                <td  align="right">
+                        <input type="text" id="check0" class="bodypara" size="5" name="word" value="0" onChange="checkZero()">
+                </td>
+                <td>
+                        <span class="bodypara"> Word size.</span>
+                </td>
+
+                <td  align="right">
+                        <input type="text" name="thresholdWord" id="check1" class="bodypara" size="5" value ="0" onChange="checkZero()">
+                </td>
+                <td >
+                        <span class="bodypara">Threshold for extending hits.</span>
+                </td>
+        </tr>
+
+        <tr>
+
+                <td  align="right">
+                        <select name="gappedAlignment" class="bodypara">
+                        <option selected>T</option>
+                        <option>F</option>
+                        </select>
+                </td>
+                <td>
+                        <span class="bodypara">Perform Gapped Alignment.</span>
+                </td>
+
+                <td  align="right">
+                        <select name="geneticCode" class="bodypara">
+                        <option selected>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        </select>
+                </td>
+                <td >
+                        <span class="bodypara">Query Genetic Code.</span>
+                </td>
+        </tr>
+        <tr>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="databaseLength" value="0" id="check2" onChange="checkZero()">
+                </td>
+                <td>
+                        <span class="bodypara"> Effective length of Database.</span>
+                </td>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="bestHits" value="0" id="check3" onChange="checkZero()">
+                </td>
+                <td >
+                        <span class="bodypara">Number of best hits to keep.</span>
+                </td>
+        </tr>
+        <tr>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="searchSpace" value="0" id="check4" onChange="checkZero()">
+                </td>
+                <td>
+                        <span class="bodypara"> Effective Length of search space.</span>
+                </td>
+
+                <td  align="right">
+                        <select name="nQueryStand" class="bodypara">
+                        <option value="3" selected>3: both strands</option>
+                        <option value="1" >1: input strand</option>
+                        <option value="2">2: reverse complement</option>
+                        </select>
+                </td>
+                <td >
+                        <span class="bodypara">Nucleotide Query Strand to use.</span>
+                </td>
+        </tr>
+        <tr>
+
+                <td  align="right">
+                        <select name="lowercaseFilter" class="bodypara">
+                        <option selected>F</option>
+                        <option>T</option>
+                        </select>
+                </td>
+                <td>
+                        <span class="bodypara"> Lowercase filtering.</span>
+                </td>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="dropoffUngapped" value="0" id="check5" onChange="checkZero()">
+                </td>
+
+                <td >
+                        <span class="bodypara">Drop off value for ungapped extension.</span>
+                </td>
+        </tr>
+        <tr>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="dropoffGapped" value="0" id="check6" onChange="checkZero()">
+                </td>
+                <td>
+                        <span class="bodypara"> Drop off value for gapped alignment.</span>
+                </td>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="dropoffFinal" value="0" id="check7" onChange="checkZero()">
+                </td>
+                <td >
+                        <span class="bodypara">Drop off value for final gapped alignment.</span>
+                </td>
+        </tr>
+        <tr>
+
+                <td  align="right">
+                        <select name="megaBlast" class="bodypara">
+                        <option selected>F</option>
+                        <option>T</option>
+                        </select>
+
+                </td>
+                <td>
+                        <span class="bodypara"> Activate MegaBlast Algorithm.</span>
+                </td>
+
+                <td  align="right">
+                        <input type="text" class="bodypara" size="5" name="frameShift" value="0" id="check8" onChange="checkZero()">
+                </td>
+                <td >
+                        <span class="bodypara">Frame shift penalty.</span>
+                </td>
+        </tr>
+                
+
+        </table>
+                <br>
+                <input type="reset" class="bodypara" value="Reset fields">
+                <input type="submit" class="bodypara" value="Blast">
+
+        </div>
+        <br><br>
+
+
+        </form>
+
+		<!-- Footer display -->
+		<TMPL_INCLUDE NAME="footer.tmpl">
+	
+	</div>

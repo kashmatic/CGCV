@@ -1,0 +1,95 @@
+<!-- 
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+	<!-- Title variable -->
+	<TITLE>
+	CGCV ::	<TMPL_VAR NAME=TITLE>
+	</TITLE>
+	
+	<!-- links to css and js files -->
+	<TMPL_INCLUDE NAME="css.tmpl">
+	<TMPL_INCLUDE NAME="script.tmpl">
+	
+	<!-- Additional scripts -->
+	<script type="text/javascript">
+		<TMPL_VAR NAME=SCRIPT>
+	</script>
+</HEAD>
+
+
+<body>
+	<!-- header -->
+	<TMPL_INCLUDE NAME="header.tmpl">
+
+	
+	<!-- Body display div -->
+	<div id="body">
+	
+	<p align="justify" class="bodypara">
+	Existing software for gene-order comparison require heavy pre-computing to identify homologous genes (done by computationally intensive genome-wide comparisons). Since interests of most Molecular biologists comprise only of a small-set of genes (cluster), such pre-computing is normally considered a waste of time and precious resources. Our web-based software system (<a href="/cgi-bin/cgcv/index.cgi">CGCV</a>) allows users to submit their genes
+and perform a dynamic search against the genomes of their choices and interactively visualize the gene conservation using our novel multi-genome browser, thus bypassing the "unwanted" pre-computing step.
+	</p>
+
+	<p align="justify" class="bodypara">
+	This system has been tested and applied to work with the Microbial sequence dataset (source: <a href="ftp://ftp.ncbi.nih.gov/genbank/genomes/bacteria/" target="_blank">NCBI GenBank FTP site</a>) and 6 Eukaryotic sequence datasets: <em>Homo sapiens, Mus musculus, Rattus norvegicus, Daniorerio, Drosophila melanogaster and Caenorhabditis elegans</em> (source: <a href="ftp://ftp.ensembl.org/pub/" target="_blank">Ensembl FTP site</a>)
+	</p>
+
+	<p align="justify" class="bodypara">This system consists of 2 integral components:</p>
+	<ol class="bodypara">
+		<li>The web-interface (front-end)</li>
+		<li>The MySQL relational tables (back-end)</li>
+	</ol>
+
+	<p align="justify" class="bodypara">
+	The <strong>Web interface</strong> provides the user with a flexible interface consisting of a BLAST server (that does the dynamic search) and a multi-genome browser. The user submits the query sequences as input(either by uploading a file or copy-pasting the sequence(s) in the submission box) and is required to choose a BLAST program and reference database(both relevant to the type of query sequence) and an e-value cutoff for the BLAST search. If necessary, the user may choose to alter the parameters of the BLAST program and customize it based on their requirements.
+	<br><br> 
+	On completion of the search, the user is presented with a Phylogenetic Profiling table which represents the presence or absence of a particular query sequence against each chosen reference genome (based on the specified e-value cutoff). This table allows users to select the genomes against which they would like to visualize the query sequences.
+	<br><br>
+	The trademark feature of this system is the novel <strong>multi-genome browser</strong>, which utilizes the <a href="http://search.cpan.org/~lds/GD-1.38/GD.pm" target="_blank">Perl GD Library</a> for the visualization.
+	</p>
+	<img src="/cgcv/img/viz.jpg" usemap="#viz" class="annotated" border="none" alt="viz">
+	<p align="justify" class="bodypara">For each genome, the image is equipped with navigation controls (to zoom in/out, pan left/right, zoom in to a particular range, filter the hits based on a cutoff e-value or rearrange the order of the image) and 3 tracks (the first one corresponding to the genome (displayed as a black bar), the second corresponding to the annotated genes (represented in green) and the third track corresponding to the query sequences).
+	</p>
+
+	<p align="justify" class="bodypara">
+	The <strong>MySQL relational tables</strong> store the parsed annotation information (derived from standard GFF and GTF files) alongwith other relevant information that enable the web-interface to retrieve the necessary data for the dynamic. Apart from the relational tables, the backend comprises of the genome, gene and amino acid sequences (stored as flatfiles on the filesystem) corresponding to all the Microbial and Eukaryotic organisms in our database. The beauty of this system is that it <em>synchronizes</em> on a <em>nightly basis</em> with the NCBI GenBank and Ensembl FTP servers. Thus, the users always have access to the latest data, as and when it is made available to the public by these sequence repositories. 
+	</p>
+    <map name="viz">
+      <area alt="panleft" title="Click to Pan towards the left" shape="rect" coords="27,55,51,92">
+      <area alt="rearrange" title="Click to move this element up/down" shape="rect" coords="447,8,535,38">
+      <area alt="evalfilter" title="Enter an e-value that you would like to filter your results on" shape="rect" coords="152,58,280,84">
+      <area alt="zoominout" title="Controls to Zoom in/out" shape="rect" coords="443,59,547,92">
+      <area alt="range" title="Enter the range (start,end) that you wish to navigate to" shape="rect" coords="618,57,839,84">
+      <area alt="refresh" title="Click to refresh the image" shape="rect" coords="913,14,992,38">
+      <area alt="panright" title="Click to Pan towards the right" shape="rect" coords="940,58,965,91">
+      <area alt="genometrack" title="Track representing the genome" shape="rect" coords="13,112,982,146">
+      <area alt="gfftrack" title="Track displaying the GFF annotations aligned against the genome" shape="rect" coords="9,150,982,200">
+      <area alt="querytrack" title="Track displaying the query sequences aligned against the genome" shape="rect" coords="10,204,981,235">
+      <area alt="popup" title="Informative popup with links to view more information and zoom into the neighborhood" shape="rect" coords="354,238,684,319">
+    </map>
+		<!-- print the contents -->
+		<TMPL_VAR NAME=CONTENT>
+
+	
+		<!-- Footer display -->
+		<TMPL_INCLUDE NAME="footer.tmpl">
+	
+	</div>

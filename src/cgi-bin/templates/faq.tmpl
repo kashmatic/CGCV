@@ -1,0 +1,116 @@
+<!--
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+	<!-- Title variable -->
+	<TITLE>
+	CGCV ::	<TMPL_VAR NAME=TITLE>
+	</TITLE>
+	
+	<!-- links to css and js files -->
+	<TMPL_INCLUDE NAME="css.tmpl">
+	<TMPL_INCLUDE NAME="script.tmpl">
+	
+	<!-- Additional scripts -->
+	<script type="text/javascript" src="/cgcv/js/switchcontent.js"></script>
+	<script type="text/javascript">
+		<TMPL_VAR NAME=SCRIPT>
+	</script>
+</HEAD>
+
+
+<body onLoad="javascript:control.sweepToggle('expand')">
+	<!-- header -->
+	<TMPL_INCLUDE NAME="header.tmpl">
+
+	
+	<!-- Body display div -->
+	<div id="body">
+
+	<h4>Frequently Asked Questions (FAQs)</h4>
+
+	<div>
+	<h6>
+	<a href="javascript:control.sweepToggle('contract')" style="color:grey">Contract All</a> | <a href="javascript:control.sweepToggle('expand')" style="color:grey">Expand All</a>
+	</h6>
+	</div>
+
+	<p id="genecluster-title" class="handcursor" style="font-size:12px">What do you mean by a "gene cluster"?
+	</p>
+
+	<div id="genecluster" class="switchgroup1">
+	<p class="bodypara" align="justify">A gene cluster refers to a set of functionally related genes that reside within close proximity of each other in the genome. For example, in prokaryotes, multiple genes can be organized into operons that are in-turn transcribed as polycistronic mRNA (e.g. the lac operon consisting of three genes, controlling lactose metabolism). In eukaryotes, the well-known <em>Hox</em> gene cluster that controls the morphology of the anterio-posterior body axis during embryonic development in metazoans is a good example. It is of enormous interest to biologists to examine the conservation of such "gene clusters" across multiple genomes.
+	</p>
+	</div>
+
+	<p id="difference-title" class="handcursor" style="font-size:12px">What is the difference between CGCV and other existing tools?
+	</p>
+
+	<div id="difference" class="switchgroup1">
+	<p class="bodypara" align="justify">Existing tools seem to rely heavily on pre-computing of orthologs for all gene families on a genome-wide scale. Such strategies suffers from two major limitations. Firstly, automating the task of distinguishing orthologs from paralogs is very difficult on a genome-wide scale. The second drawback is that genome-wide comparison is also very time consuming. As a result, when new genomes become available, users often have to wait for a long time until the computationally-intensive updates are finished. 
+	</p>
+	<p class="bodypara" align="justify">CGCV is designed for biologists who are often only interested in studying a small set of gene clusters at a time and hence we find that there is no need to perform such expensive genome-wide comparisons. We have developed a web-based system that allows users to investigate their gene clusters against multiple genomes. On account of a small input data size, such searches can be done very quickly, thus enabling the users with the option to explore different search criteria.
+	</p>
+
+	<p class="bodypara" align="justify">The results are interactively visualized via our novel multi-genome browser which allows the manual inspection of the sequence similarity among the members of each gene family. Because our strategy employs absolutely no sort of pre-computing, the back-end of the system is very easy to maintain and keep up to date, thus providing the users with access to the latest sequence data.
+	</p>
+	</div>
+
+	<p id="tutorial-title" class="handcursor" style="font-size:12px">How can I get started with this tool?
+	</p>
+	<div id="tutorial" class="switchgroup1">
+	<p class="bodypara">The <a href="/tutorial.html">Tutorial</a> page provides step-by-step instructions.
+	</p>
+	</div>
+
+	<p id="support-title" class="handcursor" style="font-size:12px">How do I get technical support?
+	</p>
+	<div id="support" class="switchgroup1">
+	<p class="bodypara">Please contact us at <a href="mailto:biohelp@cgb.indiana.edu?subject=CGCV Technical Support">biohelp@cgb.indiana.edu</a> for tech support.
+	</p>
+	</div>
+
+	<p id="software-title" class="handcursor" style="font-size:12px">Can I obtain the source code of CGCV?
+	</p>
+	<div id="software" class="switchgroup1">
+	<p class="bodypara">Yes. You can download the source code from the <a href="/software.html">Software</a> page.
+	</p>
+	</div>
+
+
+	<script type="text/javascript">
+	// MAIN FUNCTION: new switchcontent("class name",  "[optional_element_type_to_scan_for]") REQUIRED
+	// Call Instance.init() at the very end. REQUIRED
+
+	var control=new switchcontent("switchgroup1", "div") //Limit scanning of switch contents to just "div" elements
+	control.setStatus('<img src="http://img242.imageshack.us/img242/5553/opencq8.png"> ',  '<img src="http://img167.imageshack.us/img167/7718/closedy2.png"> ')
+	control.setColor('darkred',  'black')
+	control.setPersist(true)
+	control.collapsePrevious(true) //Only one content open at any given time
+	control.init()
+	</script>
+		<!-- print the contents -->
+		<TMPL_VAR NAME=CONTENT>
+
+	
+		<!-- Footer display -->
+		<TMPL_INCLUDE NAME="footer.tmpl">
+	
+	</div>

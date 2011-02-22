@@ -1,0 +1,167 @@
+<!--
+#########################################################
+## Copyright 2008 The Trustees of Indiana University
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#########################################################
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+	<!-- Title variable -->
+	<TITLE>
+	CGCV ::	<TMPL_VAR NAME=TITLE>
+	</TITLE>
+	
+	<!-- links to css and js files -->
+	<TMPL_INCLUDE NAME="css.tmpl">
+	<TMPL_INCLUDE NAME="script.tmpl">
+	
+	<!-- Additional scripts -->
+	<script type="text/javascript">
+		<TMPL_VAR NAME=SCRIPT>
+	</script>
+</HEAD>
+
+
+<body>
+	<!-- header -->
+	<TMPL_INCLUDE NAME="header.tmpl">
+
+	
+	<!-- Body display div -->
+	<div id="body">
+	
+	<p class="bodypara" align="justify"><a href="/cgi-bin/cgcv/index.cgi" title="Click here to use this tool!">Comparative Gene Cluster Viewer</a> 
+	(CGCV) allows users to visualize the BLAST hits of their query sequences against their selected choice of Microbial and/or Eukaryotic Genomes, Gene or 
+	Amino Acid Sequences. This tool is mainly aimed at users who wish to study the neighborhood of a particular gene or visualize an interesting gene cluster.</p>
+
+	<ul id="tutorialtabs" class="shadetabs">
+	<li><a href="#" rel="tab1" class="selected">Select genomes</a></li>
+	<li><a href="#" rel="tab2">Upload sequence(s)</a></li>
+	<li><a href="#" rel="tab3">Phylogenetic Profiling</a></li>
+	<li><a href="#" rel="tab4">Visualization</a></li>
+	<li><a href="#" rel="tab5">Visualization (contd..)</a></li>
+	<li><a href="#" rel="tab6">Mouse-over info</a></li>
+	</ul>
+
+
+	<div style="border-top:1px solid gray; width:1000px; height:450px; overflow:auto; padding: 5px">
+
+	  <div id="tab1" class="tabcontent">
+		<p class="bodypara" align="justify">The following box allows you to enter a valid email address. Once your BLAST job is completed, 
+		you will receive an <strong>email notification</strong> with a link that directs you to the phylogenetic profiling table.</p>
+		<img src="/cgcv/img/email.jpg" border="none" alt="email">
+
+		<p class="bodypara" align="justify">As an example, this tutorial tries to identify the conservation of a gene cluster involved in 
+		<a href="/cgcv/Phosphate_trans_and_reg.faa"><u>Phosphate Transport and Regulation</u></a> (a cluster of 5 genes in <em>Caulobacter crescentus CB15</em>, an Alphaproteobacteria) in other 
+		stalked and non-stalked Alphaproteobacteria (like <em>Maricaulis maris</em>, <em>Jannaschia sp.</em>, <em>Silicibacter sp.</em>, 
+		<em>Rhizobacterium etli</em>, etc.)</p>
+
+		<p class="bodypara" align="justify">From the list of available genomes, <strong>select the organisms</strong> of your choice, 
+		that you wish to BLAST and visualize your query sequences against. You can select/unselect the organisms by using the Add/Remove 
+		controls. Alternatively, if you choose to select all the available genomes, you may do so by using the 'Select all genomes' radio button.</p>
+		<img src="/cgcv/img/genomelist.jpg" border="none" alt="genomelist">
+	  </div>
+
+	  <div id="tab2" class="tabcontent">
+		<p class="bodypara" align="justify">Following the selection step, <strong>submit your query sequence(s)</strong> either via
+		the text-box (copy-paste a set of sequences) or by uploading a file (data must adhere to the <a href="http://www.ncbi.nlm.
+		nih.gov/blast/fasta.shtml" target="_blank">FASTA file format</a>).</p>
+		<img src="/cgcv/img/blastquery.jpg" border="none" alt="blastquery">
+
+		<br>
+														  
+		<p class="bodypara" align="justify">Click on 'BLAST' to submit your job by accepting the default parameters or configure your BLAST 
+		job by modifying the <strong>Advanced Parameters</strong> according to your needs. You are allowed to modify various parameters like
+		Word Size, Threshold score for extending hits, Effective length of database, etc.</p>
+		<img src="/cgcv/img/params.jpg" border="none" alt="params">
+	  </div>
+
+	  <div id="tab3" class="tabcontent">
+		<p class="bodypara" align="justify">On completion of the BLAST job, you are presented with a <strong>phylogenetic profiling table</strong> 
+		that displays the list of chosen organisms in a table, against a count of the hits of each query sequence against each
+		organism. This list allows you to choose the organisms which you would like to <strong>visualize.</strong></p>
+		<p class="bodypara" align="justify">By default, the table is sorted by clustering score, i.e. it is first sorted by the number of matched
+		distinct query sequences and then sorted by the total number of matched query sequences. Also, users can sort the table in alphabetic 
+		order of species names or by individual query sequences</p>
+		<img src="/cgcv/img/phyloprofile.jpg" border="none" alt="phylprofile">
+
+		<p class="bodypara" align="justify">After choosing the organisms from the list, <strong>Proceed</strong> to the visualization page.</p>
+	  </div>
+
+	  <div id="tab4" class="tabcontent">
+		<p class="bodypara" align="justify">Depending on the number of organisms chosen, the visualization page may take a considerable amount of time 
+		to draw the image. Once drawn, you are provided with a wide array of buttons to navigate through each the image.</p>
+		<p class="bodypara" align="justify">Mouse over the image to learn more about each element.</p>
+		<img src="/cgcv/img/viz.jpg" usemap="#viz" class="annotated" border="none" alt="viz">
+	  </div>
+
+	  <div id="tab5" class="tabcontent">
+		<p class="bodypara" align="justify">As you can see in the image below, the cluster of 5 genes is seen to be conserved completely in 1 and partially
+		in 2 out of the 3 organisms	(<em>Rhizobium etli CFN42, Jannaschia sp. CCS1, and Maricaulis maris MCS10</em>) </p>
+		<img src="/cgcv/img/viz-new.png" border="none" alt="multiviz">
+		<br>
+		<p class="bodypara" align="justify">An image w.r.t a particular organism, is independent of the other images and can thus be navigated through as 
+		an independent entity. Each image is equipped with buttons to pan left/right, zoom in/out, choose a particular range and filter 
+		the hits based on a particular e-value.</p>
+		<p class="bodypara" align="justify">In an image, the black bar corresponds to the genome, the tracks identified in green correspond 
+		to the annotation information derived from the GFF files, and last set of tracks correspond to the query sequences. Based on the 
+		magnification level, relevant information(such as GI numbers, locus, etc.) w.r.t to the query or the hit regions is displayed 
+		alongside the arrows.</p>
+	  </div>
+
+	  <div id="tab6" class="tabcontent">
+		<p class="bodypara" align="justify">In each image, you can mouse-over a particular query sequence or hit region. This provides you with snippets of information 
+		relevant to the particular query or hit region. On click, a new page opens up, providing you with more detailed information as follows:</p>
+		<ul>
+		<li><p class="bodypara">Query sequence information (name, sequence against which it showed similarity, full BLAST alignment)</p>
+		<img src="/cgcv/img/querydetails.jpg" alt="qdpage"></li>
+		<li><p class="bodypara">Hit sequence information (organism name, description, locus, synonym and the nucleotide & amino acid sequence.)</p>
+		<img src="/cgcv/img/genedetails.jpg" alt="gdpage"></li>
+		</ul>
+	  </div>
+
+	</div>
+
+	<script type="text/javascript">
+	  var tutorial=new ddtabcontent("tutorialtabs")
+	  tutorial.setpersist(true)
+	  tutorial.setselectedClassTarget("link") //"link" or "linkparent"
+	  tutorial.init()
+	</script>
+
+	<h6 align="center"><a href="javascript:tutorial.cycleit('prev')" style="margin-right: 10px; text-decoration:none">&#60-- Prev</a>|<a href="javascript:tutorial.cycleit('next')" style="margin-left: 10px; text-decoration:none">Next --&#62</a></h6>
+	<map name="viz">
+      <area alt="panleft" title="Click to Pan towards the left" shape="rect" coords="27,55,51,92">
+      <area alt="rearrange" title="Click to move this element up/down" shape="rect" coords="447,8,535,38">
+      <area alt="evalfilter" title="Enter an e-value that you would like to filter your results on" shape="rect" coords="152,58,280,84">
+      <area alt="zoominout" title="Controls to Zoom in/out" shape="rect" coords="443,59,547,92">
+      <area alt="range" title="Enter the range (start,end) that you wish to navigate to" shape="rect" coords="618,57,839,84">
+      <area alt="refresh" title="Click to refresh the image" shape="rect" coords="913,14,992,38">
+      <area alt="panright" title="Click to Pan towards the right" shape="rect" coords="940,58,965,91">
+      <area alt="genometrack" title="Track representing the genome" shape="rect" coords="13,112,982,146">
+      <area alt="gfftrack" title="Track displaying the GFF annotations aligned against the genome" shape="rect" coords="9,150,982,200">
+      <area alt="querytrack" title="Track displaying the query sequences aligned against the genome" shape="rect" coords="10,204,981,235">
+      <area alt="popup" title="Informative popup with links to view more information and zoom into the neighborhood" shape="rect" coords="354,238,684,319">
+    </map>
+	
+		<!-- print the contents -->
+		<TMPL_VAR NAME=CONTENT>
+
+	
+		<!-- Footer display -->
+		<TMPL_INCLUDE NAME="footer.tmpl">
+	
+	</div>

@@ -1,0 +1,18 @@
+a.annotation {
+  position: absolute;
+  border: 2px groove black;
+  padding: 0;
+  display: none;
+}
+a.annotation div span {
+  display: block;
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+a.annotation:hover {
+  border-color: yellow;
+}
+img.annotated {
+  border-width: 0;
+}
