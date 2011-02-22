@@ -155,3 +155,9 @@ Free space required (minimum):
     create-Eukaryotes.sh (~ 6-7 GB)
 
 Please make sure that you run the create-Prokaryotes.sh and the create-Eukaryotes.sh scripts only once (otherwise, the downloaded data will get corrupted)
+
+## Authors
+------------
+* Kashi Vishwanath Revanna
+* Vivek Krishnakumar
+* Qunfeng Dong
