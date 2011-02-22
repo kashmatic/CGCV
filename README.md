@@ -137,18 +137,18 @@ the installation script will create the following folder and the script that dow
 > /home/username/CGCV/Data/[Bacteria | Eukaryotes]/subfolder
   
 List of subfolders:
->  ..                        genomes        genomes  
->  ..                        aaseqs         aaseqs  
->  ..                        geneseqs  
->  ..                        gff_files      gtf_files  
->  ..                        listings       listings  
->  ..                        tmpListings    tmpListings  
->  ..                        tables         tables  
+    .. genomes  
+    .. aaseqs  
+    .. geneseqs  
+    .. gtf_files  
+    .. listings  
+    .. tmpListings  
+    .. tables  
 
 Free space required (minimum):
   
-Script                    Free space
-create-Prokaryotes.sh     ~ 8-9 GB
-create-Eukaryotes.sh      ~ 6-7 GB
+Free space required 
+* create-Prokaryotes.sh (~ 8-9 GB)
+* create-Eukaryotes.sh (~ 6-7 GB)
 
 Please make sure that you run the create-Prokaryotes.sh and the create-Eukaryotes.sh scripts only once (otherwise, the downloaded data will get corrupted)
