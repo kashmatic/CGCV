@@ -293,7 +293,7 @@ foreach my $file (@files) {
     next if ($file =~ /^\./);
     print "Formatting $file\n";
 
-    #system("formatdb -i $file -p T");
+    system("formatdb -i $file -p T");
 }
 
 #---------------------------------------------------------------------------
