@@ -9,7 +9,7 @@
 ###      http://www.apache.org/licenses/LICENSE-2.0
 ###
 ### Unless required by applicable law or agreed to in writing,  software
-### distributed under the License is distributed on an "AS IS" BASIS, 
+### distributed under the License is distributed on an "AS IS" BASIS,
 ### WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,  either express or implied.
 ### See the License for the specific language governing permissions and
 ### limitations under the License.
@@ -19,8 +19,8 @@
 #
 #         FILE:  Vars.pm
 #
-#  DESCRIPTION:  Configuration file with all necessary Variables, FTP Access 
-#  				 information, File paths, MySQL database access details and 
+#  DESCRIPTION:  Configuration file with all necessary Variables, FTP Access
+#  				 information, File paths, MySQL database access details and
 #  				 SQL statements
 #
 #        FILES:  ---
@@ -40,94 +40,105 @@ use vars qw(%euk);
 my $dataDir = "_____EUK_GENOME_____";
 
 %euk = (
-#---------------------------------------------------------------------------
-#  Data directory path
-#---------------------------------------------------------------------------
-	dataDir     	=> "$dataDir",
 
-#---------------------------------------------------------------------------
-#  FTP access information
-#---------------------------------------------------------------------------
-    ftpLink     	=> "ftp.ensembl.org",
-    directory   	=> "/pub/current_",
-    uname       	=> "anonymous",
-    passwd      	=> '_____SUPPORT_EMAIL_____',
+    #---------------------------------------------------------------------------
+    #  Data directory path
+    #---------------------------------------------------------------------------
+    dataDir => "$dataDir",
 
-#---------------------------------------------------------------------------
-#  Database access details
-#---------------------------------------------------------------------------
-	dbname			=> "_____DB_DATABASE_____",
-	host			=> "_____DB_HOST_____",
-	dbuname			=> "_____DB_USER_____",
-	dbpasswd		=> "_____DB_PASSWORD_____",
+    #---------------------------------------------------------------------------
+    #  FTP access information
+    #---------------------------------------------------------------------------
+    ftpLink   => "ftp.ensembl.org",
+    directory => "/pub/current_",
+    uname     => "anonymous",
+    passwd    => '_____SUPPORT_EMAIL_____',
 
-#---------------------------------------------------------------------------
-#  MySQl statements to drop, create and update the tables:
-#  		
-#  		mainTbl
-#  		Table name: taxid_orgname_Euk
-# 		+---------+--------------+------+-----+---------+-------+
-# 		| Field   | Type         | Null | Key | Default | Extra |
-# 		+---------+--------------+------+-----+---------+-------+
-# 		| taxid   | varchar(2)   | NO   | PRI | NULL    |       | 
-# 		| orgname | varchar(100) | NO   |     | NULL    |       | 
-# 		+---------+--------------+------+-----+---------+-------+
-# 		
-# 		linkTbl
-# 		Table name: taxid_accno_Euk
-# 		+-----------+--------------+------+-----+---------+-------+
-# 		| Field     | Type         | Null | Key | Default | Extra |
-# 		+-----------+--------------+------+-----+---------+-------+
-# 		| taxid     | varchar(2)   | NO   |     | NULL    |       | 
-# 		| accno     | varchar(4)   | NO   |     | NULL    |       | 
-# 		| orgname   | varchar(100) | YES  |     | NULL    |       | 
-# 		| seqlength | int(11)      | YES  |     | NULL    |       | 
-# 		+-----------+--------------+------+-----+---------+-------+
-#
-# 		childTbl
-# 		Table name: genedetails_Euk
-# 		+-------------+-------------+------+-----+---------+-------+
-# 		| Field       | Type        | Null | Key | Default | Extra |
-# 		+-------------+-------------+------+-----+---------+-------+
-# 		| accno       | varchar(4)  | NO   |     | NULL    |       | 
-# 		| protaccno   | varchar(25) | YES  |     | NULL    |       | 
-# 		| geneid      | varchar(25) | YES  |     | NULL    |       | 
-# 		| start       | int(11)     | YES  |     | NULL    |       | 
-# 		| end         | int(11)     | YES  |     | NULL    |       | 
-# 		| strand      | varchar(1)  | YES  |     | NULL    |       | 
-# 		| description | varchar(25) | YES  |     | NULL    |       | 
-# 		+-------------+-------------+------+-----+---------+-------+
-#  		
-#---------------------------------------------------------------------------
-	mainTbldrop 	=> "DROP TABLE IF EXISTS taxid_orgname_Euk\;",
-	linkTbldrop    => "DROP TABLE IF EXISTS taxid_accno_Euk\;",
-	childTbldrop    => "DROP TABLE IF EXISTS genedetails_Euk\;",
+    #---------------------------------------------------------------------------
+    #  Database access details
+    #---------------------------------------------------------------------------
+    dbname   => "_____DB_DATABASE_____",
+    host     => "_____DB_HOST_____",
+    dbuname  => "_____DB_USER_____",
+    dbpasswd => "_____DB_PASSWORD_____",
 
-	mainTblcreate 	=> "CREATE TABLE IF NOT EXISTS taxid_orgname_Euk (taxid VARCHAR(2) NOT NULL PRIMARY KEY, orgname VARCHAR(100) NOT NULL)\;",
-	linkTblcreate   => "CREATE TABLE IF NOT EXISTS taxid_accno_Euk (taxid VARCHAR(2) NOT NULL, accno VARCHAR(4) NOT NULL, orgname VARCHAR(100), seqlength INT)\;",
-	childTblcreate 	=> "CREATE TABLE IF NOT EXISTS genedetails_Euk (accno VARCHAR(4) NOT NULL, protaccno VARCHAR(35), gene_id VARCHAR(35), gene_start INT, gene_end INT, transcript_id VARCHAR(35), transcript_start INT, transcript_end INT, strand VARCHAR(1), description VARCHAR(25))\;",
+    #---------------------------------------------------------------------------
+    #  MySQl statements to drop, create and update the tables:
+    #
+    #  		mainTbl
+    #  		Table name: taxid_orgname_Euk
+    # 		+---------+--------------+------+-----+---------+-------+
+    # 		| Field   | Type         | Null | Key | Default | Extra |
+    # 		+---------+--------------+------+-----+---------+-------+
+    # 		| taxid   | varchar(2)   | NO   | PRI | NULL    |       |
+    # 		| orgname | varchar(100) | NO   |     | NULL    |       |
+    # 		+---------+--------------+------+-----+---------+-------+
+    #
+    # 		linkTbl
+    # 		Table name: taxid_accno_Euk
+    # 		+-----------+--------------+------+-----+---------+-------+
+    # 		| Field     | Type         | Null | Key | Default | Extra |
+    # 		+-----------+--------------+------+-----+---------+-------+
+    # 		| taxid     | varchar(2)   | NO   |     | NULL    |       |
+    # 		| accno     | varchar(4)   | NO   |     | NULL    |       |
+    # 		| orgname   | varchar(100) | YES  |     | NULL    |       |
+    # 		| seqlength | int(11)      | YES  |     | NULL    |       |
+    # 		+-----------+--------------+------+-----+---------+-------+
+    #
+    # 		childTbl
+    # 		Table name: genedetails_Euk
+    # 		+-------------+-------------+------+-----+---------+-------+
+    # 		| Field       | Type        | Null | Key | Default | Extra |
+    # 		+-------------+-------------+------+-----+---------+-------+
+    # 		| accno       | varchar(4)  | NO   |     | NULL    |       |
+    # 		| protaccno   | varchar(25) | YES  |     | NULL    |       |
+    # 		| geneid      | varchar(25) | YES  |     | NULL    |       |
+    # 		| start       | int(11)     | YES  |     | NULL    |       |
+    # 		| end         | int(11)     | YES  |     | NULL    |       |
+    # 		| strand      | varchar(1)  | YES  |     | NULL    |       |
+    # 		| description | varchar(25) | YES  |     | NULL    |       |
+    # 		+-------------+-------------+------+-----+---------+-------+
+    #
+    #---------------------------------------------------------------------------
+    mainTbldrop  => "DROP TABLE IF EXISTS taxid_orgname_Euk\;",
+    linkTbldrop  => "DROP TABLE IF EXISTS taxid_accno_Euk\;",
+    childTbldrop => "DROP TABLE IF EXISTS genedetails_Euk\;",
 
-	mainTblLoad   => "LOAD DATA LOCAL INFILE \'$dataDir/tables/main.csv\' INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
-	linkTblLoad   => "LOAD DATA LOCAL INFILE \'$dataDir/tables/link.csv\' INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, accno, orgname, seqlength)\;",
-	childTblLoad  => "LOAD DATA LOCAL INFILE \'$dataDir/tables/genedetails.csv\' INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (accno, protaccno, gene_id, gene_start, gene_end, transcript_id, transcript_start, transcript_end, strand, description)\;",
+    mainTblcreate =>
+"CREATE TABLE IF NOT EXISTS taxid_orgname_Euk (taxid VARCHAR(2) NOT NULL PRIMARY KEY, orgname VARCHAR(100) NOT NULL)\;",
+    linkTblcreate =>
+"CREATE TABLE IF NOT EXISTS taxid_accno_Euk (taxid VARCHAR(2) NOT NULL, accno VARCHAR(4) NOT NULL, orgname VARCHAR(100), seqlength INT)\;",
+    childTblcreate =>
+"CREATE TABLE IF NOT EXISTS genedetails_Euk (accno VARCHAR(4) NOT NULL, protaccno VARCHAR(35), gene_id VARCHAR(35), gene_start INT, gene_end INT, transcript_id VARCHAR(35), transcript_start INT, transcript_end INT, strand VARCHAR(1), description VARCHAR(25))\;",
 
-	mainTblupdate 	=> "LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
-	mainTblupdate   => "LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid,  orgname)\;",
-	childTblupdate 	=> "LOAD DATA LOCAL INFILE \'$dataDir/tables/updategenedetails.csv\' REPLACE INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (orgname, chromosome_no, geneid, exon_num, gene_name, start, end, strand, protein_id)\;",
+    mainTblLoad =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/main.csv\' INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
+    linkTblLoad =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/link.csv\' INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, accno, orgname, seqlength)\;",
+    childTblLoad =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/genedetails.csv\' INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (accno, protaccno, gene_id, gene_start, gene_end, transcript_id, transcript_start, transcript_end, strand, description)\;",
 
-#---------------------------------------------------------------------------
-#  MySQL statements to drop, create and update the AA sequence tables
-#
-#  Table name: aaseqs_eukaryotes
-#  +-----------+-------------+------+-----+---------+
-#  | Field     | Type        | Null | Key | Default |
-#  +-----------+-------------+------+-----+---------+
-#  | protein_id| varchar(25) | NO   | PRI | NULL    | 
-#  | sequence  | text        | YES  |     | NULL    | 
-#  +-----------+-------------+------+-----+---------+
-#---------------------------------------------------------------------------
-	aaSeqTbldrop 	=> "DROP TABLE IF EXISTS aaseqs_Euk\;",
-	aaSeqTblcreate 	=> "CREATE TABLE IF NOT EXISTS aaseqs_Euk (protaccno VARCHAR(15) NOT NULL PRIMARY KEY, sequence TEXT)\;",
-	aaSeqTblinsert 	=> "INSERT INTO aaseqs_eukaryotes (protaccno, sequence) VALUES(?, ?)\;",
-	aaSeqTblupdate  => "UPDATE aaseqs_eukaryotes SET protaccno=?, sequence=?\;"
+    mainTblupdate =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
+    mainTblupdate =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid,  orgname)\;",
+    childTblupdate =>
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updategenedetails.csv\' REPLACE INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (orgname, chromosome_no, geneid, exon_num, gene_name, start, end, strand, protein_id)\;",
+
+    #---------------------------------------------------------------------------
+    #  MySQL statements to drop, create and update the AA sequence tables
+    #
+    #  Table name: aaseqs_eukaryotes
+    #  +-----------+-------------+------+-----+---------+
+    #  | Field     | Type        | Null | Key | Default |
+    #  +-----------+-------------+------+-----+---------+
+    #  | protein_id| varchar(25) | NO   | PRI | NULL    |
+    #  | sequence  | text        | YES  |     | NULL    |
+    #  +-----------+-------------+------+-----+---------+
+    #---------------------------------------------------------------------------
+    aaSeqTbldrop => "DROP TABLE IF EXISTS aaseqs_Euk\;",
+    aaSeqTblcreate =>
+"CREATE TABLE IF NOT EXISTS aaseqs_Euk (protaccno VARCHAR(15) NOT NULL PRIMARY KEY, sequence TEXT)\;",
+    aaSeqTblinsert => "INSERT INTO aaseqs_eukaryotes (protaccno, sequence) VALUES(?, ?)\;",
+    aaSeqTblupdate => "UPDATE aaseqs_eukaryotes SET protaccno=?, sequence=?\;"
 );

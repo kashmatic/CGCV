@@ -14,6 +14,10 @@
 ## limitations under the License.
 #########################################################
 
+Version 1.0.6 (08-10-2011)
+- Restructured the database initialization wrapper script
+- Fixed issue of FTP connection timing out during EukDB setup
+
 Version 1.0.5 (02-01-2008)
 - Inclusion of Plasmids along with the Genomes.
 - Update Information provided in the Demo page.

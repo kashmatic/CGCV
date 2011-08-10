@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 #########################################################
 ### Copyright 2008 The Trustees of Indiana University
 ###
@@ -9,7 +9,7 @@
 ###      http://www.apache.org/licenses/LICENSE-2.0
 ###
 ### Unless required by applicable law or agreed to in writing,  software
-### distributed under the License is distributed on an "AS IS" BASIS, 
+### distributed under the License is distributed on an "AS IS" BASIS,
 ### WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,  either express or implied.
 ### See the License for the specific language governing permissions and
 ### limitations under the License.
@@ -19,7 +19,7 @@
 #
 #         FILE:  splitaaseqs.pl
 #
-#        USAGE:  ./splitaaseqs.pl 
+#        USAGE:  ./splitaaseqs.pl
 #
 #  DESCRIPTION:  Program that splits the AA sequence files into many parts - each
 #                part corresponding to a particular chromosome of an organism
@@ -61,7 +61,13 @@ foreach my $file(@files) {
 		next unless (/chromosome/);
 
 		s/>$//;
-		my ($chrno) = $_ =~ /^\S+\s\S+:\S+\s\S+:\S+\:(\S+):\d+:\d+:\S+\sgene:/;
+		my ($chrno) = $_ =~ /^\S+\s\S+\:\S+\s\S+\:\S+\:(\S+)\:\d+\:\d+\:\S+\sgene\:/;
+        next if ($chrno =~ /Het/
+            or $chrno =~ /MT/
+            or $chrno =~ /MtDNA/
+            or $chrno =~ /HG\d+/
+            or $chrno =~ /HS\S+/);
+
 		my $sequence = ">$_";
 		my $outputfile = $file.$chrno;
 
@@ -70,7 +76,7 @@ foreach my $file(@files) {
 			open("$outputfile", ">>$outputfile");
 			push(@handles, $outputfile);
 		}
-		
+
 		print $outputfile "$sequence";
 	}
 	close(FILE);

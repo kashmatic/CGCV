@@ -18,37 +18,22 @@
 #===============================================================================
 #
 #          FILE:  sampler.sh
-# 
-#         USAGE:  ./sampler.sh 
-# 
-#   DESCRIPTION:  Shell script that runs sets up a Sample data-set of Prokaryotes
-# 				  and Eukaryotes
-# 
+#
+#         USAGE:  ./sampler.sh
+#
+#   DESCRIPTION:  Shell script that sets up a Sample data-set of Prokaryotes
+# 				  and Eukaryotes for CGCV
+#
 #       OPTIONS:  ---
 #  REQUIREMENTS:  ---
 #          BUGS:  ---
 #         NOTES:  ---
-#        AUTHOR:  Vivek Krishankumar, biohelp@cgb.indiana.edu 
+#        AUTHOR:  Vivek Krishankumar, biohelp@cgb.indiana.edu
 #       COMPANY:  The Center for Genomics and Bioinformatics
 #       VERSION:  1.0
 #       CREATED:  11/17/08 10:52:37 EST
 #      REVISION:  ---
 #===============================================================================
 
-cd sampler
-/usr/bin/nohup perl INSTALL-prokaryotes.pl > prokaryotes-install.out 2> prokaryotes-install.err < /dev/null &
-/usr/bin/nohup perl INSTALL-eukaryotes.pl > eukaryotes-instal.out 2> eukaryotes-install.err < /dev/null &
-
-echo "cd $PWD" > update-prokaryotes.sh
-echo "/usr/bin/nohup perl UPDATE-prokaryotes.pl > prokaryotes-update.out 2> prokaryotes-update.err < /dev/null &" >> update-prokaryotes.sh
-
-echo "cd $PWD" > udpate-eukaryotes.sh
-echo "/usr/bin/nohup perl UPDATE-eukaryotes.pl > eukaryotes-update.out 2> eukaryotes-update.err < /dev/null &" >> update-eukaryotes.sh
-
-chmod +x *.sh
-
-printf "Please add the following lines to your crontab\n"
-printf "0 0 * * * $PWD/update-prokaryotes.sh\n\n"
-printf "0 0 * * * $PWD/update-eukaryotes.sh\n\n"
-
-echo "Thank you!"
+./createDB.sh -o Prokaryotes -m sampler
+./createDB.sh -o Eukaryotes -m sampler
