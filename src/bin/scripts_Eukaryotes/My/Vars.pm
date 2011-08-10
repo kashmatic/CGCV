@@ -38,6 +38,10 @@ use strict;
 
 use vars qw(%euk);
 my $dataDir = "_____EUK_GENOME_____";
+my $main     = "taxid_orgname_Euk";
+my $link     = "taxid_accno_Euk";
+my $child    = "genedetails_Euk";
+my $aaseqs   = "aaseqs_Euk";
 
 %euk = (
 
@@ -100,45 +104,45 @@ my $dataDir = "_____EUK_GENOME_____";
     # 		+-------------+-------------+------+-----+---------+-------+
     #
     #---------------------------------------------------------------------------
-    mainTbldrop  => "DROP TABLE IF EXISTS taxid_orgname_Euk\;",
-    linkTbldrop  => "DROP TABLE IF EXISTS taxid_accno_Euk\;",
-    childTbldrop => "DROP TABLE IF EXISTS genedetails_Euk\;",
+    mainTbldrop  => "DROP TABLE IF EXISTS $main\;",
+    linkTbldrop  => "DROP TABLE IF EXISTS $link\;",
+    childTbldrop => "DROP TABLE IF EXISTS $child\;",
 
     mainTblcreate =>
-"CREATE TABLE IF NOT EXISTS taxid_orgname_Euk (taxid VARCHAR(2) NOT NULL PRIMARY KEY, orgname VARCHAR(100) NOT NULL)\;",
+"CREATE TABLE IF NOT EXISTS $main (taxid VARCHAR(2) NOT NULL PRIMARY KEY, orgname VARCHAR(100) NOT NULL)\;",
     linkTblcreate =>
-"CREATE TABLE IF NOT EXISTS taxid_accno_Euk (taxid VARCHAR(2) NOT NULL, accno VARCHAR(4) NOT NULL, orgname VARCHAR(100), seqlength INT)\;",
+"CREATE TABLE IF NOT EXISTS $link (taxid VARCHAR(2) NOT NULL, accno VARCHAR(4) NOT NULL, orgname VARCHAR(100), seqlength INT)\;",
     childTblcreate =>
-"CREATE TABLE IF NOT EXISTS genedetails_Euk (accno VARCHAR(4) NOT NULL, protaccno VARCHAR(35), gene_id VARCHAR(35), gene_start INT, gene_end INT, transcript_id VARCHAR(35), transcript_start INT, transcript_end INT, strand VARCHAR(1), description VARCHAR(25))\;",
+"CREATE TABLE IF NOT EXISTS $child (accno VARCHAR(4) NOT NULL, protaccno VARCHAR(35), gene_id VARCHAR(35), gene_start INT, gene_end INT, transcript_id VARCHAR(35), transcript_start INT, transcript_end INT, strand VARCHAR(1), description VARCHAR(25))\;",
 
     mainTblLoad =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/main.csv\' INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/main.csv\' INTO TABLE $main FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
     linkTblLoad =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/link.csv\' INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, accno, orgname, seqlength)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/link.csv\' INTO TABLE $link FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, accno, orgname, seqlength)\;",
     childTblLoad =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/genedetails.csv\' INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (accno, protaccno, gene_id, gene_start, gene_end, transcript_id, transcript_start, transcript_end, strand, description)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/genedetails.csv\' INTO TABLE $child FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (accno, protaccno, gene_id, gene_start, gene_end, transcript_id, transcript_start, transcript_end, strand, description)\;",
 
     mainTblupdate =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_orgname_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE $main FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid, orgname)\;",
     mainTblupdate =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE taxid_accno_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid,  orgname)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updatemain.csv\' REPLACE INTO TABLE $link FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (taxid,  orgname)\;",
     childTblupdate =>
-"LOAD DATA LOCAL INFILE \'$dataDir/tables/updategenedetails.csv\' REPLACE INTO TABLE genedetails_Euk FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (orgname, chromosome_no, geneid, exon_num, gene_name, start, end, strand, protein_id)\;",
+"LOAD DATA LOCAL INFILE \'$dataDir/tables/updategenedetails.csv\' REPLACE INTO TABLE $child FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' (orgname, chromosome_no, geneid, exon_num, gene_name, start, end, strand, protein_id)\;",
 
     #---------------------------------------------------------------------------
     #  MySQL statements to drop, create and update the AA sequence tables
     #
-    #  Table name: aaseqs_eukaryotes
+    #  Table name: aaseqs_Euk
     #  +-----------+-------------+------+-----+---------+
     #  | Field     | Type        | Null | Key | Default |
     #  +-----------+-------------+------+-----+---------+
-    #  | protein_id| varchar(25) | NO   | PRI | NULL    |
+    #  | protaccno | varchar(25) | NO   | PRI | NULL    |
     #  | sequence  | text        | YES  |     | NULL    |
     #  +-----------+-------------+------+-----+---------+
     #---------------------------------------------------------------------------
-    aaSeqTbldrop => "DROP TABLE IF EXISTS aaseqs_Euk\;",
+    aaSeqTbldrop => "DROP TABLE IF EXISTS $aaseqs\;",
     aaSeqTblcreate =>
-"CREATE TABLE IF NOT EXISTS aaseqs_Euk (protaccno VARCHAR(15) NOT NULL PRIMARY KEY, sequence TEXT)\;",
-    aaSeqTblinsert => "INSERT INTO aaseqs_eukaryotes (protaccno, sequence) VALUES(?, ?)\;",
-    aaSeqTblupdate => "UPDATE aaseqs_eukaryotes SET protaccno=?, sequence=?\;"
+"CREATE TABLE IF NOT EXISTS $aaseqs (protaccno VARCHAR(25) NOT NULL PRIMARY KEY, sequence TEXT)\;",
+    aaSeqTblinsert => "INSERT INTO $aaseqs (protaccno, sequence) VALUES(?, ?)\;",
+    aaSeqTblupdate => "UPDATE $aaseqs SET protaccno=?, sequence=?\;"
 );

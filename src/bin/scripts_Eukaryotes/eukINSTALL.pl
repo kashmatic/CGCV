@@ -492,7 +492,7 @@ system("sed -e 's/CEI/CE1/g' -i genedetails.csv");
 
 print "\n\nSetting up the MySQL database and inserting the data\n";
 
-my $dsn = "DBI:mysql:host=$euk{host};database=$euk{database}";
+my $dsn = "DBI:mysql:host=$euk{host};database=$euk{dbname}";
 my $dbh = DBI->connect($dsn, $euk{dbuname}, $euk{dbpasswd})
   or die "Cannot connect to server\n";
 
@@ -538,6 +538,8 @@ closedir(DIR);
 chdir("$euk{dataDir}/aaseqs/");
 
 foreach my $file (@dir) {
+    next if($file =~ /\./);
+
     print "$file\n";
     open(FILE, "$file");
 
