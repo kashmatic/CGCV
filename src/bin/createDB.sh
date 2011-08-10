@@ -112,7 +112,7 @@ if [[ ${org:0:4} = "prok" ]]; then
     chmod +x $org-update.sh
 
     printf "Please add this line to your crontab\n"
-    printf "0 0 * * * $PWD/$org-update.sh\n\n"
+    printf "\033[1m0 0 * * * $PWD/$org-update.sh\033[0m\n\n"
 
     echo "This will set up a nightly cronjob (to be executed at 12:00am) to check for updates, if any, and simultaneously download them."
 fi

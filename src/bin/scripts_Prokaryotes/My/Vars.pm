@@ -125,7 +125,6 @@ my $aaseqs   = "aaseqs";
     #  | sequence | text        | YES  |     | NULL    |
     #  +----------+-------------+------+-----+---------+
     #---------------------------------------------------------------------------
-    getgeneids   => "SELECT geneid,start,end,strand FROM $child WHERE accno LIKE ?\;",
     ntSeqTbldrop => "DROP TABLE IF EXISTS $geneseqs\;",
     ntSeqTblcreate =>
 "CREATE TABLE IF NOT EXISTS $geneseqs (geneid VARCHAR(15) NOT NULL PRIMARY KEY, sequence TEXT)\;",

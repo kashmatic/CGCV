@@ -40,7 +40,6 @@
 #===============================================================================
 
 use strict;
-
 #---------------------------------------------------------------------------
 #  Load the required modules
 #---------------------------------------------------------------------------
@@ -53,11 +52,13 @@ use vars qw(%bact);
 *bact = \%My::Vars::bact;
 my $usage = "Usage: $0 sampler|full-install";
 my $mode = shift or die "\n\nError: installation mode not specified!\n$usage\n\n";
+($mode eq "sampler") ? "" : (($mode eq "full-install") ? "" : die $usage);
 
 print
 "Welcome to the Downloader. This will download all the sequences pertaining to Bacteria from GenBank.\n";
 
 # Change to the appropriate directory
+system "rm -rf $bact{dataDir}" if(-d $bact{dataDir});
 system "mkdir $bact{dataDir}";
 chdir "$bact{dataDir}";
 
@@ -65,8 +66,8 @@ chdir "$bact{dataDir}";
 #  Connect to the GenBank FTP site and generate the file listing
 #---------------------------------------------------------------------------
 # Open the FTP connection
-my $ftp = Net::FTP->new($bact{ftpLink}, Debug => 0, Passive => 1, Timeout => 600)
-  or die "Error: $@";
+my $ftp = Net::FTP->new($bact{ftpLink}, Debug => 0, Timeout => 600, Passive => 1)
+  or die "Error: $!";
 
 # Login Credentials. Provide your email ID as anonymous login password
 $ftp->login($bact{uname}, $bact{passwd})
@@ -77,30 +78,23 @@ $ftp->cwd($bact{directory})
   or die "Error: ", $ftp->message;
 
 # Save the Directory listing of the 'Bacteria' directory to an array
-my @directories =
-  ($mode =~ /sampler/)
-  ? (
-    "Caulobacter_crescentus", "Jannaschia_CCS1",
-    "Maricaulis_maris_MCS10", "Rhizobium_etli_CFN_42",
-    "Silicibacter_TM1040"
-  )
-  : (($mode =~ /full-install/) ? $ftp->ls or die "Error: ", $ftp->message : die $usage);
+my %sample_organisms = ();
+if ($mode eq "sampler") {
+    $sample_organisms{$_} = 1 foreach (
+        "Caulobacter_crescentus", "Jannaschia_CCS1", "Maricaulis_maris_MCS10",
+        "Rhizobium_etli_CFN_42",  "Silicibacter_TM1040"
+    );
+}
+my @directories = $ftp->ls or die "Error: ", $ftp->message;
 
 #---------------------------------------------------------------------------
 #  Create the necessary directories to store the downloaded files
 #---------------------------------------------------------------------------
 
-system "rm -rf $bact{dataDir}/aaseqs/";
-system "rm -rf $bact{dataDir}/genomes/";
-system "rm -rf $bact{dataDir}/geneseqs/";
-system "rm -rf $bact{dataDir}/gff_files/";
-system "rm -rf $bact{dataDir}/listings";
-
-system "mkdir $bact{dataDir}/aaseqs/";
-system "mkdir $bact{dataDir}/genomes/";
-system "mkdir $bact{dataDir}/geneseqs/";
-system "mkdir $bact{dataDir}/gff_files/";
-system "mkdir $bact{dataDir}/listings";
+foreach my $dir("aaseqs", "genomes", "geneseqs", "gff_files", "listings") {
+    system "rm -rf $bact{dataDir}/$dir/" if(-d "$bact{dataDir}/$dir/");
+    system "mkdir $bact{dataDir}/$dir/";
+}
 
 #---------------------------------------------------------------------------
 #  Begin the download of files from the FTP &
@@ -110,7 +104,9 @@ system "mkdir $bact{dataDir}/listings";
 print "Commencing download of files and Generating listings...";
 
 foreach my $dir (@directories) {
-    next if ($dir =~ /README/ || $dir =~ /accessions/);
+    next if ($dir =~ /README/ or $dir =~ /accessions/);
+    my ($org, $uid) = $dir =~ /^(\S+)\_(uid\d+)/;
+    next if(not defined $sample_organisms{$org} and $mode eq "sampler");
 
     $ftp->cwd($dir)
       or die "Error: ", $ftp->message;
@@ -154,7 +150,7 @@ foreach my $dir (@directories) {
 
         foreach my $f (@currdir) {
             if ($f =~ /$fname/) {
-                next unless ($f =~ /gff/ || $f =~ /ffn/ || $f =~ /fna/ || $f =~ /faa/);
+                next unless ($f =~ /gff/ or $f =~ /ffn/ or $f =~ /fna/ or $f =~ /faa/);
 
                 chomp $f;
                 print $LISTING "$f\n";
@@ -190,7 +186,7 @@ foreach my $directory (@dirs) {
 
     print "Formatting $directory....";
     foreach my $file (@files) {
-        next if ($file =~ /\./ || $file =~ /backup/);
+        next if ($file =~ /\./ or $file =~ /backup/);
         system "formatdb -i $file -p F" if ($directory =~ /gen/);
         system "formatdb -i $file -p T" if ($directory =~ /aaseqs/);
     }
@@ -202,14 +198,16 @@ foreach my $directory (@dirs) {
 #---------------------------------------------------------------------------
 
 # Set the working directory
-system("rm -rf $bact{dataDir}/tables");
+system("rm -rf $bact{dataDir}/tables") if(-d "$bact{dataDir}/tables");
 system("mkdir $bact{dataDir}/tables");
 chdir("$bact{dataDir}/tables");
 
 # Read the directory and get a file listing
-opendir(DIR, "$bact{dataDir}/gff_files") || die("Cannot open directory\n");
+opendir(DIR, "$bact{dataDir}/gff_files") or die("Cannot open directory\n");
 my @gff_files = readdir(DIR);
 closedir(DIR);
+# Hash to store the gi number for every gene based on accno and coords as keys
+my %gi_number = ();
 
 open(MAIN,  ">main.tab");
 open(CHILD, ">child.tab");
@@ -250,12 +248,12 @@ foreach my $file (@gff_files) {
 
         my @Line = split /\t/, $line;    # Split the line at tab spaces(\t)
 
-        if ($Line[2] =~ /source/ && $Line[8] =~ /organism/)
+        if ($Line[2] =~ /source/ and $Line[8] =~ /organism/)
         { ## Pick the line which has the word 'source' in it. From this line, we extract the organism name
             chomp $Line[8];
             my @split = split /;/, $Line[8];
 
-            next if ($split[0] =~ m/phage/i && $track > 0);
+            next if ($split[0] =~ m/phage/i and $track > 0);
 
             chomp $Line[4];
             push @coords, $Line[4];
@@ -331,6 +329,7 @@ foreach my $file (@gff_files) {
             # Print to output file (print only the appropriate columns)
             print CHILD
               "$file\t$prot_accno\t$gi\t$locus\t$geneid\t$Line[3]\t$Line[4]\t$Line[6]\t$product\n";
+            $gi_number{$file}{"$Line[3]-$Line[4]"} = $gi;
         }    # endif CDS
     }    # close foreach GFF file contents
 }    # close foreach all GFF files
@@ -382,10 +381,8 @@ print "Done!\n";
 #---------------------------------------------------------------------------
 #  Modify the FASTA preambles of all NT sequences
 #---------------------------------------------------------------------------
-$query = $dbh->prepare($bact{getgeneids});
-
 chdir "$bact{dataDir}/geneseqs";
-system "rm -rf backup";
+system "rm -rf backup" if(-d "$bact{dataDir}/geneseqs/backup");
 system "mkdir backup";
 
 opendir DIR, "$bact{dataDir}/geneseqs";
@@ -396,39 +393,34 @@ print "Modifying FASTA preambles of all NT sequences and running FormatDB....";
 foreach my $file (@gseq_files) {
     next
       if ( $file =~ /nin/
-        || $file =~ /nhr/
-        || $file =~ /nsq/
-        || $file =~ /log/
-        || $file =~ /\./
-        || $file =~ /backup/);
+        or $file =~ /nhr/
+        or $file =~ /nsq/
+        or $file =~ /log/
+        or $file =~ /\./
+        or $file =~ /backup/);
 
     #print "$file\n";
     open FILE, "$file";
-    my @file = <FILE>;
+    my @file_content = <FILE>;
     close FILE;
 
     my ($start, $end, $header);
     open OUTFILE, ">$file.mod";
 
-    foreach my $line (@file) {
+    foreach my $line (@file_content) {
         chomp $line;
+        my ($Start, $End);
         if ($line =~ /^>/) {
-            $query->execute($file);
             if ($line =~ /:c/) {
-                ($end, $start) = $line =~ /^>.*\|.*\|:c([0-9]+)-([0-9]+).*$/;
+                ($end, $start) = $line =~ /^>.*\|.*[\|]:c([0-9]+)-([0-9]+).*$/;
+                ($Start, $End) = ($start + 3, $end);
             }
             else {
-                ($start, $end) = $line =~ /^>.*\|.*\|:([0-9]+)-([0-9]+).*$/;
+                ($start, $end) = $line =~ /^>.*\|.*[\|]:([0-9]+)-([0-9]+).*$/;
+                ($Start, $End) = ($start, $end - 3);
             }
             ($header) = $line =~ /^>(.*)/;
-            while (my @row = $query->fetchrow_array()) {
-                my $End   = $row[2] + 3;
-                my $Start = $row[1] - 3;
-                if (($start == $row[1] && $end == $End) || ($start == $Start && $end == $row[2])) {
-                    print OUTFILE ">gi\|$row[0]\|$header\n";
-                    last;
-                }
-            }
+            print OUTFILE ">gi\|", $gi_number{$file}{"$Start-$End"}, "\|$header\n";
         }
         else {
             print OUTFILE "$line\n";
@@ -464,11 +456,11 @@ closedir DIR;
 foreach my $file (@dir) {
     next
       if ( $file =~ /nhr/
-        || $file =~ /nin/
-        || $file =~ /nsq/
-        || $file =~ /log/
-        || $file =~ /\./
-        || $file =~ /backup/);
+        or $file =~ /nin/
+        or $file =~ /nsq/
+        or $file =~ /log/
+        or $file =~ /\./
+        or $file =~ /backup/);
 
     open FILE, "$file";
     my @file = <FILE>;
@@ -477,13 +469,13 @@ foreach my $file (@dir) {
     my $track = 0;
     my ($geneid, $sequence);
     foreach my $line (@file) {
-        if ($track == 1 && $line =~ /^>/) {
+        if ($track == 1 and $line =~ /^>/) {
             $query->execute($geneid, $sequence);
             $track = 0;
         }
         chomp $line;
-        print $line, "\n";
-        ($geneid) = $line =~ /^>.*\|(.*)\|.*\|.*\|/ if ($line =~ /^>/);
+        #print $line, "\n";
+        ($geneid) = $line =~ /^>.*\|(.*)\|.*\|.*[\|]/ if ($line =~ /^>/);
         $track    = 1  if ($line =~ /^>/);
         $sequence = "" if ($line =~ /^>/);
         $sequence .= "$line\n";
@@ -512,7 +504,7 @@ opendir DIR, "$bact{dataDir}/aaseqs";
 closedir DIR;
 
 foreach my $file (@dir) {
-    next if ($file =~ /phr/ || $file =~ /pin/ || $file =~ /psq/ || $file =~ /log/ || $file =~ /\./);
+    next if ($file =~ /phr/ or $file =~ /pin/ or $file =~ /psq/ or $file =~ /log/ or $file =~ /\./);
 
     open FILE, "$file";
     my @file = <FILE>;
@@ -521,7 +513,7 @@ foreach my $file (@dir) {
     my $track = 0;
     my ($protaccno, $sequence);
     foreach my $line (@file) {
-        if ($track == 1 && $line =~ /^>/) {
+        if ($track == 1 and $line =~ /^>/) {
             $query->execute($protaccno, $sequence);
             $track = 0;
         }

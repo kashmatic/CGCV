@@ -57,7 +57,8 @@ print
 "Welcome to the Downloader. This will download all the sequences pertaining to selected Eukaryotes from Ensembl\n\n";
 
 ## Change to the appropriate directory
-system("mkdir $euk{dataDir}") if (!-d $euk{dataDir});
+system("rm -rf $euk{dataDir}") if (-d $euk{dataDir});
+system("mkdir $euk{dataDir}");
 chdir("$euk{dataDir}");
 
 ###############################################################################
@@ -71,13 +72,10 @@ print
 ###############################################################################
 
 ## Create the necessary directories to store the downloaded files
-system("rm -rf $euk{dataDir}/genomes/");
-system("rm -rf $euk{dataDir}/aaseqs/");
-system("rm -rf $euk{dataDir}/gtf_files/");
-
-system("mkdir $euk{dataDir}/genomes/");
-system("mkdir $euk{dataDir}/aaseqs/");
-system("mkdir $euk{dataDir}/gtf_files/");
+foreach my $dir("genomes", "aaseqs", "gtf_files") {
+    system("rm -rf $euk{dataDir}/$dir/") if(-d "$euk{dataDir}/$dir/");
+    system("mkdir $euk{dataDir}/$dir/");
+}
 
 my @organisms = (
     "Homo_sapiens",            "Danio_rerio",
@@ -107,7 +105,7 @@ foreach my $eukaryote (@eukaryotes) {
     $ftp->close;
 
     foreach my $file (@listing) {
-        next unless ($file =~ /dna\.chromosome/ && $file =~ /\.fa\.gz$/);
+        next unless ($file =~ /dna\.chromosome/ and $file =~ /\.fa\.gz$/);
         next
           if ( $file =~ /c[0-9]*_\w+/
             or $file =~ /dna_rm/
@@ -205,7 +203,7 @@ print "Done!!\n\n";
 #---------------------------------------------------------------------------
 &ftp_connect();
 
-system("rm -rf $euk{dataDir}/listings");
+system("rm -rf $euk{dataDir}/listings") if(-d "$euk{dataDir}/listings");
 system("mkdir $euk{dataDir}/listings");
 chdir("$euk{dataDir}/listings/");
 
@@ -223,7 +221,7 @@ foreach my $eukaryote (@eukaryotes) {
       or die "$0 : failed to open  output file '$LISTING_file_name' : $!\n";
 
     foreach my $file (@listing) {
-        next unless ($file =~ /dna\.chromosome/ && $file =~ /\.fa\.gz$/);
+        next unless ($file =~ /dna\.chromosome/ and $file =~ /\.fa\.gz$/);
         next
           if ( $file =~ /c[0-9]*_\w+/
             or $file =~ /dna_rm/
@@ -301,7 +299,7 @@ foreach my $file (@files) {
 #---------------------------------------------------------------------------
 
 ## Set the working directory
-system("rm -rf $euk{dataDir}/tables");
+system("rm -rf $euk{dataDir}/tables") if(-d "$euk{dataDir}/tables");
 system("mkdir $euk{dataDir}/tables");
 chdir("$euk{dataDir}/tables");
 
@@ -568,7 +566,7 @@ exit;
 sub ftp_connect {
     ## Open the FTP connection
     $ftp = Net::FTP->new($euk{ftpLink}, Debug => 0, Passive => 1, Timeout => 600)
-        or die "Error: $@";
+        or die "Error: $!";
 
     ## Login Credentials. Provide your email ID as anonymous login password
     $ftp->login($euk{uname}, $euk{passwd})

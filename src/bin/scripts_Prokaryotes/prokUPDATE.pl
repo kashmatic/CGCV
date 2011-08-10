@@ -53,7 +53,7 @@ my $mode = shift or die "\n\nError: installation mode not specified!\n$usage\n\n
 
 print "Welcome to the updater! Please be patient while updates are being checked...\n";
 
-system "rm -rf $bact{dataDir}/tmpListings";
+system "rm -rf $bact{dataDir}/tmpListings" if(-d "$bact{dataDir}/tmpListings");
 system "mkdir $bact{dataDir}/tmpListings";
 chdir "$bact{dataDir}/tmpListings";
 
@@ -61,8 +61,8 @@ chdir "$bact{dataDir}/tmpListings";
 #  Connect to the GenBank FTP site and generate the file listing.
 #---------------------------------------------------------------------------
 # Open the FTP connection
-my $ftp = Net::FTP->new($bact{ftpLink}, Debug => 0, Timeout => 800, Passive => 1)
-  or die "Error: $@";
+my $ftp = Net::FTP->new($bact{ftpLink}, Debug => 0, Timeout => 600, Passive => 1)
+  or die "Error: $!";
 
 # Login Credentials
 $ftp->login($bact{uname}, $bact{passwd})
@@ -76,18 +76,19 @@ $ftp->cwd($bact{directory})
   or die "Error: ", $ftp->message;
 
 # Save the Directory listing of the 'Bacteria' directory to an array
-my @directories =
-  ($mode eq /sampler/)
-  ? (
-    "Caulobacter_crescentus", "Jannaschia_CCS1",
-    "Maricaulis_maris_MCS10", "Rhizobium_etli_CFN_42",
-    "Silicibacter_TM1040"
-  )
-  : $ftp->ls
-  or die "Error: ", $ftp->message;
+my %sample_organisms = ();
+if ($mode eq "sampler") {
+    $sample_organisms{$_} = 1 foreach (
+        "Caulobacter_crescentus", "Jannaschia_CCS1", "Maricaulis_maris_MCS10",
+        "Rhizobium_etli_CFN_42",  "Silicibacter_TM1040"
+    );
+}
+my @directories = $ftp->ls or die "Error: ", $ftp->message;
 
 foreach my $dir (@directories) {
-    next if ($dir =~ /README/ || $dir =~ /accessions/);
+    next if ($dir =~ /README/ or $dir =~ /accessions/);
+    my ($org, $uid) = $dir =~ /^(.*)\_(uid\d+)/;
+    next if(not defined $sample_organisms{$org} and $mode eq "sampler");
 
     $ftp->cwd($dir)
       or die "Error: ", $ftp->message;
@@ -146,7 +147,7 @@ print "Done!\n";
 #  Check for updates in existing files by comparing the listings (@oldFiles)
 #---------------------------------------------------------------------------
 
-system "rm -rf $bact{dataDir}/diff";
+system "rm -rf $bact{dataDir}/diff" if(-d "$bact{dataDir}/diff");
 system "mkdir $bact{dataDir}/diff";
 chdir "$bact{dataDir}/diff";
 
@@ -186,7 +187,7 @@ foreach my $file (@diffFiles) {
     my $fn;
 
     foreach my $line (@file_contents) {
-        next unless ($line =~ /\|/ || $line =~ />/ || $line =~ /</);
+        next unless ($line =~ /\|/ or $line =~ />/ or $line =~ /</);
         chomp $line;
 
         if ($line =~ /\|/) {
@@ -450,6 +451,8 @@ if ($check == 1) {
 
     # Set the working directory
     chdir "$bact{dataDir}/tables";
+    # Hash to store the gi number for every gene based on accno and coords as keys
+    my %gi_number = ();
 
     open(MAIN,  ">updatemain.tab");
     open(CHILD, ">updatechild.tab");
@@ -490,12 +493,12 @@ if ($check == 1) {
 
             my @Line = split /\t/, $line;    # Split the line at tab spaces(\t)
 
-            if ($Line[2] =~ /source/ && $Line[8] =~ /organism/)
+            if ($Line[2] =~ /source/ and $Line[8] =~ /organism/)
             { ## Pick the line which has the word 'source' in it. From this line, we extract the organism name
                 chomp $Line[8];
                 my @split = split /;/, $Line[8];
 
-                next if ($split[0] =~ m/phage/i && $track > 0);
+                next if ($split[0] =~ m/phage/i and $track > 0);
 
                 chomp $Line[4];
                 push @coords, $Line[4];
@@ -571,6 +574,7 @@ if ($check == 1) {
                 # Print to output file (print only the appropriate columns)
                 print CHILD
 "$file\t$prot_accno\t$gi\t$locus\t$geneid\t$Line[3]\t$Line[4]\t$Line[6]\t$product\n";
+                $gi_number{$file}{"$Line[3]-$Line[4]"} = $gi;
             }    # endif CDS
         }    # close foreach GFF file contents
     }    # close foreach all GFF files
@@ -602,8 +606,6 @@ if ($check == 1) {
     #    4.  Modify the NT sequence preambles
     #---------------------------------------------------------------------------
 
-    $query = $dbh->prepare($bact{getgeneids});
-
     chdir "$bact{dataDir}/geneseqs";
 
     print "\t4. Modifying the NT sequence preambles...";
@@ -618,25 +620,18 @@ if ($check == 1) {
 
         foreach my $line (@file) {
             chomp $line;
+            my ($Start, $End);
             if ($line =~ /^>/) {
-                $query->execute($file);
                 if ($line =~ /:c/) {
                     ($end, $start) = $line =~ /^>.*\|.*\|:c(.*)-(.*)$/;
+                    ($Start, $End) = ($start + 3, $end);
                 }
                 else {
                     ($start, $end) = $line =~ /^>.*\|.*\|:(.*)-(.*)$/;
+                    ($Start, $End) = ($start, $end - 3);
                 }
                 ($header) = $line =~ /^>(.*)/;
-                while (my @row = $query->fetchrow_array()) {
-                    my $End   = $row[2] + 3;
-                    my $Start = $row[1] - 3;
-                    if (   ($start == $row[1] && $end == $End)
-                        || ($start == $Start && $end == $row[2]))
-                    {
-                        print OUTFILE ">gi\|$row[0]\|$header\n";
-                        last;
-                    }
-                }
+                print OUTFILE ">gi\|", $gi_number{$file}{"$Start-$End"}, "\|$header\n";
             }
             else {
                 print OUTFILE "$line\n";
@@ -669,7 +664,7 @@ if ($check == 1) {
         my $track = 0;
         my ($geneid, $sequence);
         foreach my $line (@file) {
-            if ($track == 1 && $line =~ /^>/) {
+            if ($track == 1 and $line =~ /^>/) {
                 $query->execute($sequence, $geneid);
                 $track = 0;
             }
@@ -701,7 +696,7 @@ if ($check == 1) {
         my $track = 0;
         my ($protaccno, $sequence);
         foreach my $line (@file) {
-            if ($track == 1 && $line =~ /^>/) {
+            if ($track == 1 and $line =~ /^>/) {
                 $query->execute($sequence, $protaccno);
                 $track = 0;
             }
