@@ -26,7 +26,7 @@
 #        FILES:  ---
 #         BUGS:  ---
 #        NOTES:  ---
-#       AUTHOR:  Vivek Krishnakumar, <vivkrish@indiana.edu>
+#       AUTHOR:  Vivek Krishnakumar, <biohelp@cgb.indiana.edu>
 #      COMPANY:  The Center for Genomics and Bioinformatics
 #      VERSION:  1.0
 #      CREATED:  10/17/08 16:28:40 EDT
@@ -91,17 +91,19 @@ my $aaseqs   = "aaseqs_Euk";
     #
     # 		childTbl
     # 		Table name: genedetails_Euk
-    # 		+-------------+-------------+------+-----+---------+-------+
-    # 		| Field       | Type        | Null | Key | Default | Extra |
-    # 		+-------------+-------------+------+-----+---------+-------+
-    # 		| accno       | varchar(4)  | NO   |     | NULL    |       |
-    # 		| protaccno   | varchar(25) | YES  |     | NULL    |       |
-    # 		| geneid      | varchar(25) | YES  |     | NULL    |       |
-    # 		| start       | int(11)     | YES  |     | NULL    |       |
-    # 		| end         | int(11)     | YES  |     | NULL    |       |
-    # 		| strand      | varchar(1)  | YES  |     | NULL    |       |
-    # 		| description | varchar(25) | YES  |     | NULL    |       |
-    # 		+-------------+-------------+------+-----+---------+-------+
+    # 		+------------------+-------------+------+-----+---------+-------+
+    # 		| Field            | Type        | Null | Key | Default | Extra |
+    # 		+------------------+-------------+------+-----+---------+-------+
+    # 		| accno            | varchar(4)  | NO   |     | NULL    |       |
+    # 		| gene_id          | varchar(25) | YES  |     | NULL    |       |
+    # 		| gene_start       | int(11)     | YES  |     | NULL    |       |
+    # 		| gene_end         | int(11)     | YES  |     | NULL    |       |
+    # 		| transcript_id    | varchar(25) | YES  |     | NULL    |       |
+    # 		| transcript_start | int(11)     | YES  |     | NULL    |       |
+    # 		| transcript_end   | int(11)     | YES  |     | NULL    |       |
+    # 		| strand           | varchar(1)  | YES  |     | NULL    |       |
+    # 		| description      | varchar(25) | YES  |     | NULL    |       |
+    # 		+------------------+-------------+------+-----+---------+-------+
     #
     #---------------------------------------------------------------------------
     mainTbldrop  => "DROP TABLE IF EXISTS $main\;",
@@ -136,13 +138,13 @@ my $aaseqs   = "aaseqs_Euk";
     #  +-----------+-------------+------+-----+---------+
     #  | Field     | Type        | Null | Key | Default |
     #  +-----------+-------------+------+-----+---------+
-    #  | protaccno | varchar(25) | NO   | PRI | NULL    |
+    #  | protaccno | varchar(35) | NO   | PRI | NULL    |
     #  | sequence  | text        | YES  |     | NULL    |
     #  +-----------+-------------+------+-----+---------+
     #---------------------------------------------------------------------------
     aaSeqTbldrop => "DROP TABLE IF EXISTS $aaseqs\;",
     aaSeqTblcreate =>
-"CREATE TABLE IF NOT EXISTS $aaseqs (protaccno VARCHAR(25) NOT NULL PRIMARY KEY, sequence TEXT)\;",
+"CREATE TABLE IF NOT EXISTS $aaseqs (protaccno VARCHAR(35) NOT NULL PRIMARY KEY, sequence TEXT)\;",
     aaSeqTblinsert => "INSERT INTO $aaseqs (protaccno, sequence) VALUES(?, ?)\;",
     aaSeqTblupdate => "UPDATE $aaseqs SET protaccno=?, sequence=?\;"
 );

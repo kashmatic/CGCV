@@ -41,12 +41,12 @@ sub displayErrorPage{
         my $cgi = new CGI;
         my $content = '
 			<h4>Error</h4>
-			<p class="bodypara">Sorry, We have encountered an error. 
-			Please contact the CGCV Developer Team at 
+			<p class="bodypara">Sorry, We have encountered an error.
+			Please contact the CGCV Developer Team at
 			<a href="mailto:_____SUPPORT_EMAIL_____">
 			_____SUPPORT_EMAIL_____
-			</a> with the message you have received below and a brief description of what led you to this problem. 
-			We will be glad to make BOV better and better. <br>
+			</a> with the message you have received below and a brief description of what led you to this problem.
+			We will be glad to make CGCV better and better. <br>
 			<br>
 			Thank you, <br>
 			<strong>CGCV Team.</strong>
@@ -56,7 +56,7 @@ sub displayErrorPage{
 			<p class="bodypara">
 			Message:<br>
 		';
-	
+
         $content .= '<span style="color:red;" class="bodypara">';
         $content .= shift;
         $content .= '</span>
@@ -67,7 +67,7 @@ sub displayErrorPage{
 
 	$template->param(TITLE => "ERROR");
         $template->param(CONTENT => $content);
-        
+
 	print $template->output;
         print $cgi->end_html();
         exit;
@@ -76,16 +76,16 @@ sub displayErrorPage{
 sub noBLAST{
 	## Display error webpage  if the upload file is not a BLAST output file
 	my $form = shift;
-	
+
 	my $cgi = new CGI;
 	my $content = '
 		<h4>Sorry</h4>
 		<p class="bodypara">There were \'No Hits Found\' for the given set of query/queries against the selected Genome sequences. Please change the selected genomes or increase the cut-off evalue.
 	</p>
-	<p class="bodypara">Click <a href="'.$form.'">here</a> to start over.</p> 
+	<p class="bodypara">Click <a href="'.$form.'">here</a> to start over.</p>
 	</p>
 	';
-	
+
 	print $cgi->header;
 	my $template =  HTML::Template->new(filename => "templates/main.tmpl");
 	$template->param(TITLE => "ERROR");
@@ -94,6 +94,6 @@ sub noBLAST{
 	print $cgi->end_html();
 	exit;
 }
-	
+
 1;
 

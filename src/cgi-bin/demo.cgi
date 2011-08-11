@@ -37,17 +37,17 @@ use DBI;
 my $cgi = new CGI;
 
 ## Page contents
-my $content = '	
+my $content = '
 <h4>Showcases of CGCV</h4>
 <p class="bodypara" align="justify">
 If you want to get a taste of CGCV, check out the following links to see how we have applied CGCV to both Prokaryotic and Eukaryotic datasets.
 </p>
 <ul class="bodypara">
-<li>Click <a href="/cgi-bin/proForm.cgi">here</a> to compare gene clusters in Prokaryotic genomes</li>
-<li>Click <a href="/cgi-bin/euForm.cgi">here</a> to compare gene clusters in Eukaryotic genomes</li>
+<li>Click <a href="/cgi-bin/cgcv/proForm.cgi">here</a> to compare gene clusters in Prokaryotic genomes</li>
+<li>Click <a href="/cgi-bin/cgcv/euForm.cgi">here</a> to compare gene clusters in Eukaryotic genomes</li>
 </ul>
 <p class="bodypara" align="justify">
-We are committed to maintaining the above two "showcase" servers up to date. However, if you would like to use CGCV on your own data set, you can 
+We are committed to maintaining the above two "showcase" servers up to date. However, if you would like to use CGCV on your own data set, you can
 download the entire system from the <a href="/cgi-bin/software.cgi">software</a> page. (Refer to the accompanying documentation files for detailed information
 on setting up the system.)
 </p>

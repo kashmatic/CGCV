@@ -101,13 +101,14 @@ foreach my $dir("aaseqs", "genomes", "geneseqs", "gff_files", "listings") {
 #  Generate the file listings
 #---------------------------------------------------------------------------
 
-print "Commencing download of files and Generating listings...";
+print "Commencing download of files and Generating listings...\n";
 
 foreach my $dir (@directories) {
     next if ($dir =~ /README/ or $dir =~ /accessions/);
     my ($org, $uid) = $dir =~ /^(\S+)\_(uid\d+)/;
     next if(not defined $sample_organisms{$org} and $mode eq "sampler");
 
+    print "$org\n";
     $ftp->cwd($dir)
       or die "Error: ", $ftp->message;
 

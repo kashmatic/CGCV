@@ -33,7 +33,7 @@
 #  REQUIREMENTS:  ---
 #          BUGS:  ---
 #         NOTES:  ---
-#        AUTHOR:  Vivek Krishankumar, biohelp@cgb.indiana.edu
+#        AUTHOR:  Vivek Krishankumar, <biohelp@cgb.indiana.edu>
 #       COMPANY:  The Center for Genomics and Bioinformatics
 #       VERSION:  1.0
 #       CREATED:  11/17/08 10:52:37 EST

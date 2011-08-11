@@ -43,9 +43,9 @@
 #
 support_email="kashi.revanna@unt.edu"
 
-## Sendmail 
+## Sendmail
 #
-# Enter the location of the binary file for sendmail 
+# Enter the location of the binary file for sendmail
 #
 # e.g. sendmail="/usr/sbin/sendmail"
 #
@@ -72,17 +72,17 @@ blastall_binary="/media/storage/packages/blast-2.2.23/"
 ## Upload Directory
 #
 # Enter the directory on your local filesystem. This directory is used to create
-# directory to store uploaded file and supplementary files. 
+# directory to store uploaded file and supplementary files.
 #
 # e.g. upload_directory = "/storage/tmp/"
 #
 upload_directory="/media/storage/www/tool/tmp/"
 
 ## Genomes Path
-# 
+#
 # Enter the location of the bacterial & genomes. This directory is used to create
-# files containing the genome, nucleotide and amino acid sequences. 
-# 
+# files containing the genome, nucleotide and amino acid sequences.
+#
 # e.g. genomes_path="/storage/sequences/"
 genomes_path="/media/storage/project/bioinfo/cgcv/"
 
@@ -107,13 +107,13 @@ database_username="cgcv"
 ## Database Password
 #
 # This is the password used to connecto to MySQL. If left blank, no
-# password will be used. 
+# password will be used.
 #
 database_password=""
 
 ## Database Name
 #
-# This is the name of the MySQL database BOV will connect to. The
+# This is the name of the MySQL database CGCV will connect to. The
 # INSTALL doc gives instructions for creating a database named
 # microbial.
 #
@@ -131,7 +131,7 @@ database_host="localhost"
 #
 # This is the number of days results will be kept on the server. After
 # this time, they will be deleted to save space. To never delete
-# results, set this variable to 0. If the variable is not set to 0, 
+# results, set this variable to 0. If the variable is not set to 0,
 # A cronjob will be created in the home directory, to delete the records from
 # the database.
 #
@@ -159,7 +159,7 @@ cp -rp src/bin bin
 
 ## set variables
 eukaryote="Eukaryotes/"
-bacteria="Bacteria/" 
+bacteria="Bacteria/"
 eukaryote_genomes=${genomes_path}${eukaryote}
 bacteria_genomes=${genomes_path}${bacteria}
 
