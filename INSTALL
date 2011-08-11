@@ -156,11 +156,11 @@ Installation
 
 9. Change to the bin directory and execute the following commands to download the files and set up the MySQL database with the necessary tables for the viewer. For Bacterial genomes, run:
 
-> sh createDB.sh -o Prokaryotes -m full-install
+> sh createDB.sh -o Prokaryotes -m "full-install"
 
 For Eukaryotic genomes,
 
-> sh createDB.sh -o Eukaryotes -m full-install
+> sh createDB.sh -o Eukaryotes -m "full-install"
 
 NOTE: Both these scripts take a considerable amount of time to download and set up the service on your local system. To test our service, you may choose to run the following script:
 
